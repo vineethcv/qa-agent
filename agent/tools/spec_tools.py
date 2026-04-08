@@ -3,6 +3,7 @@ from __future__ import annotations
 from agent.state import AgentState
 from agent.tools.base import AgentTool
 from skills.ingest_specs import build_normalized_spec_bundle
+from skills.merge_understanding import build_unified_understanding
 from skills.understand_design_screenshots import enrich_bundle_from_design_screenshots
 from skills.understand_tables import enrich_bundle_from_table_like_text
 from skills.understand_text_specs import enrich_bundle_from_text_specs
@@ -98,6 +99,31 @@ class InspectUiArtifactTool(AgentTool):
                 "ui_element_count": len(state.understanding.ui_elements),
                 "ambiguity_count": len(state.understanding.ambiguities),
                 "design_image_count": len(state.understanding.design_images),
+            }
+        )
+        return state
+
+
+class MergeUnderstandingTool(AgentTool):
+    name = "merge_understanding"
+    description = (
+        "Consolidate signals from text, tables, and design metadata into one unified understanding model."
+    )
+
+    def run(self, state: AgentState, **kwargs) -> AgentState:
+        if state.understanding is None:
+            raise ValueError("understanding bundle not initialized")
+
+        state.understanding = build_unified_understanding(state.understanding)
+        state.tool_trace.append(
+            {
+                "tool": self.name,
+                "status": "ok",
+                "requirement_count": len(state.understanding.requirements),
+                "ui_element_count": len(state.understanding.ui_elements),
+                "business_rule_count": len(state.understanding.business_rules),
+                "acceptance_criteria_count": len(state.understanding.acceptance_criteria),
+                "ambiguity_count": len(state.understanding.ambiguities),
             }
         )
         return state
