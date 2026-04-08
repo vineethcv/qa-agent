@@ -77,14 +77,11 @@ def load_design_images(paths: list[str]) -> list[DesignImageInput]:
 
 
 def run_generate_testcases(args: argparse.Namespace) -> None:
-    spec_sources = load_spec_sources(args.spec_file)
-    design_images = load_design_images(args.design_image)
-
     state = AgentState(
         title=args.title,
         raw_inputs={
-            "spec_sources": spec_sources,
-            "design_images": design_images,
+            "spec_sources": load_spec_sources(args.spec_file),
+            "design_images": load_design_images(args.design_image),
         },
     )
 
@@ -106,11 +103,10 @@ def run_generate_testcases(args: argparse.Namespace) -> None:
 def main() -> None:
     args = parse_args()
 
-    if args.mode == "generate_testcases":
-        run_generate_testcases(args)
-        return
+    if args.mode != "generate_testcases":
+        raise ValueError(f"Unsupported mode: {args.mode}")
 
-    raise ValueError(f"Unsupported mode: {args.mode}")
+    run_generate_testcases(args)
 
 
 if __name__ == "__main__":
