@@ -127,3 +127,88 @@ class MergeUnderstandingTool(AgentTool):
             }
         )
         return state
+
+
+class MapUserFlowsTool(AgentTool):
+    name = "map_user_flows"
+    description = (
+        "Build lightweight user journey and transition paths from the current understanding."
+    )
+
+    def run(self, state: AgentState, **kwargs) -> AgentState:
+        if state.understanding is None:
+            raise ValueError("understanding bundle not initialized")
+
+        requirements = state.understanding.requirements
+        acceptance_criteria = state.understanding.acceptance_criteria
+        business_rules = state.understanding.business_rules
+
+        flows: list[dict[str, object]] = []
+
+        requirement_texts = [item.description for item in requirements]
+        acceptance_texts = [item.description for item in acceptance_criteria]
+        business_rule_texts = [item.description for item in business_rules]
+
+        login_related = [
+            text
+            for text in requirement_texts + acceptance_texts + business_rule_texts
+            if "login" in text.lower() or "sign in" in text.lower()
+        ]
+        redirect_related = [
+            text
+            for text in acceptance_texts + requirement_texts
+            if "redirect" in text.lower() or "dashboard" in text.lower()
+        ]
+        validation_related = [
+            text
+            for text in acceptance_texts + business_rule_texts
+            if "error" in text.lower()
+            or "invalid" in text.lower()
+            or "required" in text.lower()
+            or "validation" in text.lower()
+        ]
+
+        if login_related:
+            flows.append(
+                {
+                    "name": "login_journey",
+                    "start_state": "user_not_authenticated",
+                    "trigger": "submit_login_credentials",
+                    "possible_transitions": (
+                        ["authenticated_redirect"] if redirect_related else ["authentication_result_unknown"]
+                    ),
+                    "evidence": login_related[:5],
+                }
+            )
+
+        if validation_related:
+            flows.append(
+                {
+                    "name": "validation_feedback",
+                    "start_state": "form_in_progress",
+                    "trigger": "submit_invalid_or_incomplete_input",
+                    "possible_transitions": ["inline_or_blocking_error_feedback"],
+                    "evidence": validation_related[:5],
+                }
+            )
+
+        if not flows and requirement_texts:
+            flows.append(
+                {
+                    "name": "generic_requirement_journey",
+                    "start_state": "unknown",
+                    "trigger": "user_interacts_with_feature",
+                    "possible_transitions": ["behavior_defined_by_requirements"],
+                    "evidence": requirement_texts[:5],
+                }
+            )
+
+        state.user_flows = flows
+        state.tool_trace.append(
+            {
+                "tool": self.name,
+                "status": "ok",
+                "flow_count": len(state.user_flows),
+            }
+        )
+        return state
