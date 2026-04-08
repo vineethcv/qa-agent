@@ -307,3 +307,63 @@ class FindGapsAndConflictsTool(AgentTool):
             }
         )
         return state
+
+
+class ScoreConfidenceTool(AgentTool):
+    name = "score_confidence"
+    description = (
+        "Assign lightweight confidence levels to the current understanding based on evidence counts and signal coverage."
+    )
+
+    def run(self, state: AgentState, **kwargs) -> AgentState:
+        if state.understanding is None:
+            raise ValueError("understanding bundle not initialized")
+
+        requirement_count = len(state.understanding.requirements)
+        ui_element_count = len(state.understanding.ui_elements)
+        business_rule_count = len(state.understanding.business_rules)
+        acceptance_criteria_count = len(state.understanding.acceptance_criteria)
+        ambiguity_count = len(state.understanding.ambiguities)
+        flow_count = len(state.user_flows)
+        conflict_count = len(state.conflicts)
+
+        evidence_score = (
+            requirement_count
+            + ui_element_count
+            + business_rule_count
+            + acceptance_criteria_count
+            + flow_count
+        )
+
+        if evidence_score >= 12 and ambiguity_count <= 2 and conflict_count == 0:
+            overall_confidence = "high"
+        elif evidence_score >= 6 and ambiguity_count <= 5:
+            overall_confidence = "medium"
+        else:
+            overall_confidence = "low"
+
+        state.confidence = {
+            "overall": overall_confidence,
+            "requirements": "high" if requirement_count >= 3 else "medium" if requirement_count >= 1 else "low",
+            "ui": "high" if ui_element_count >= 3 else "medium" if ui_element_count >= 1 else "low",
+            "rules": "high" if business_rule_count >= 2 else "medium" if business_rule_count >= 1 else "low",
+            "acceptance": (
+                "high"
+                if acceptance_criteria_count >= 3
+                else "medium"
+                if acceptance_criteria_count >= 1
+                else "low"
+            ),
+            "flows": "high" if flow_count >= 2 else "medium" if flow_count >= 1 else "low",
+            "ambiguities": ambiguity_count,
+            "conflicts": conflict_count,
+        }
+
+        state.tool_trace.append(
+            {
+                "tool": self.name,
+                "status": "ok",
+                "overall_confidence": state.confidence["overall"],
+            }
+        )
+        return state

@@ -19,4 +19,5 @@ class AgentState:
     decisions: list[str] = field(default_factory=list)
     user_flows: list[dict[str, Any]] = field(default_factory=list)
     conflicts: list[str] = field(default_factory=list)
+    confidence: dict[str, Any] = field(default_factory=dict)
     tool_trace: list[dict[str, Any]] = field(default_factory=list)
