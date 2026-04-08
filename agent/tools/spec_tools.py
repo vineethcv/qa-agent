@@ -175,7 +175,9 @@ class MapUserFlowsTool(AgentTool):
                     "start_state": "user_not_authenticated",
                     "trigger": "submit_login_credentials",
                     "possible_transitions": (
-                        ["authenticated_redirect"] if redirect_related else ["authentication_result_unknown"]
+                        ["authenticated_redirect"]
+                        if redirect_related
+                        else ["authentication_result_unknown"]
                     ),
                     "evidence": login_related[:5],
                 }
@@ -209,6 +211,64 @@ class MapUserFlowsTool(AgentTool):
                 "tool": self.name,
                 "status": "ok",
                 "flow_count": len(state.user_flows),
+            }
+        )
+        return state
+
+
+class ResolveConflictsTool(AgentTool):
+    name = "resolve_conflicts"
+    description = (
+        "Detect duplicate, contradictory, or incomplete requirement signals across the current understanding."
+    )
+
+    def run(self, state: AgentState, **kwargs) -> AgentState:
+        if state.understanding is None:
+            raise ValueError("understanding bundle not initialized")
+
+        requirements = state.understanding.requirements
+        acceptance_criteria = state.understanding.acceptance_criteria
+        business_rules = state.understanding.business_rules
+
+        conflicts: list[str] = []
+        seen_requirements: set[str] = set()
+
+        for requirement in requirements:
+            normalized = requirement.description.strip().lower()
+            if normalized in seen_requirements:
+                conflicts.append(f"Duplicate requirement detected: {requirement.description}")
+            else:
+                seen_requirements.add(normalized)
+
+        requirement_text = " ".join(item.description.lower() for item in requirements)
+        acceptance_text = " ".join(item.description.lower() for item in acceptance_criteria)
+        business_rule_text = " ".join(item.description.lower() for item in business_rules)
+
+        required_signal = "required" in business_rule_text
+        optional_signal = (
+            "optional" in requirement_text
+            or "optional" in acceptance_text
+            or "optional" in business_rule_text
+        )
+        if required_signal and optional_signal:
+            conflicts.append(
+                "Possible contradiction detected: both required and optional signals exist in current understanding."
+            )
+
+        login_signal = "login" in requirement_text or "sign in" in requirement_text
+        redirect_signal = "redirect" in acceptance_text or "dashboard" in acceptance_text
+        if login_signal and not redirect_signal:
+            conflicts.append(
+                "Potentially incomplete login flow: authentication is referenced without a clear post-login outcome."
+            )
+
+        state.conflicts = conflicts
+        state.findings.extend(conflicts)
+        state.tool_trace.append(
+            {
+                "tool": self.name,
+                "status": "ok",
+                "conflict_count": len(state.conflicts),
             }
         )
         return state
