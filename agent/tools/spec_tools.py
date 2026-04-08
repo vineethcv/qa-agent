@@ -9,6 +9,7 @@ from skills.merge_understanding import build_unified_understanding
 from skills.understand_design_screenshots import enrich_bundle_from_design_screenshots
 from skills.understand_tables import enrich_bundle_from_table_like_text
 from skills.understand_text_specs import enrich_bundle_from_text_specs
+from skills.validate_testcases import validate_testcase_bundle
 
 
 class ReadSpecSourcesTool(AgentTool):
@@ -426,6 +427,37 @@ class DraftTestScenariosTool(AgentTool):
                 "tool": self.name,
                 "status": "ok",
                 "testcase_count": len(state.testcases.test_cases),
+            }
+        )
+        return state
+
+
+class ValidateTestOutputTool(AgentTool):
+    name = "validate_test_output"
+    description = (
+        "Validate generated testcase output for basic structural quality before artifact writing."
+    )
+
+    def run(self, state: AgentState, **kwargs) -> AgentState:
+        if state.testcases is None:
+            raise ValueError("testcase bundle not initialized")
+
+        validation_result = validate_testcase_bundle(state.testcases)
+        state.validation = {
+            "is_valid": validation_result.is_valid,
+            "error_count": len(validation_result.errors),
+            "errors": validation_result.errors,
+        }
+
+        if validation_result.errors:
+            state.findings.extend(validation_result.errors)
+
+        state.tool_trace.append(
+            {
+                "tool": self.name,
+                "status": "ok",
+                "is_valid": validation_result.is_valid,
+                "error_count": len(validation_result.errors),
             }
         )
         return state
