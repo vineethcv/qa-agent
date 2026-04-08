@@ -3,6 +3,7 @@ from __future__ import annotations
 from agent.state import AgentState
 from agent.tools.base import AgentTool
 from skills.ingest_specs import build_normalized_spec_bundle
+from skills.understand_design_screenshots import enrich_bundle_from_design_screenshots
 from skills.understand_tables import enrich_bundle_from_table_like_text
 from skills.understand_text_specs import enrich_bundle_from_text_specs
 
@@ -74,6 +75,29 @@ class ExtractTableRulesTool(AgentTool):
                 "ui_element_count": len(state.understanding.ui_elements),
                 "business_rule_count": len(state.understanding.business_rules),
                 "acceptance_criteria_count": len(state.understanding.acceptance_criteria),
+            }
+        )
+        return state
+
+
+class InspectUiArtifactTool(AgentTool):
+    name = "inspect_ui_artifact"
+    description = (
+        "Infer visible UI structure and possible mismatches from design image metadata."
+    )
+
+    def run(self, state: AgentState, **kwargs) -> AgentState:
+        if state.understanding is None:
+            raise ValueError("understanding bundle not initialized")
+
+        state.understanding = enrich_bundle_from_design_screenshots(state.understanding)
+        state.tool_trace.append(
+            {
+                "tool": self.name,
+                "status": "ok",
+                "ui_element_count": len(state.understanding.ui_elements),
+                "ambiguity_count": len(state.understanding.ambiguities),
+                "design_image_count": len(state.understanding.design_images),
             }
         )
         return state
