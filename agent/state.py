@@ -22,4 +22,5 @@ class AgentState:
     conflicts: list[str] = field(default_factory=list)
     confidence: dict[str, Any] = field(default_factory=dict)
     validation: dict[str, Any] = field(default_factory=dict)
+    artifacts: dict[str, Any] = field(default_factory=dict)
     tool_trace: list[dict[str, Any]] = field(default_factory=list)

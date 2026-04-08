@@ -10,6 +10,8 @@ from skills.understand_design_screenshots import enrich_bundle_from_design_scree
 from skills.understand_tables import enrich_bundle_from_table_like_text
 from skills.understand_text_specs import enrich_bundle_from_text_specs
 from skills.validate_testcases import validate_testcase_bundle
+from skills.write_testcases import write_testcase_artifacts
+from skills.write_understanding import write_understanding_artifacts
 
 
 class ReadSpecSourcesTool(AgentTool):
@@ -458,6 +460,44 @@ class ValidateTestOutputTool(AgentTool):
                 "status": "ok",
                 "is_valid": validation_result.is_valid,
                 "error_count": len(validation_result.errors),
+            }
+        )
+        return state
+
+
+class WriteArtifactsTool(AgentTool):
+    name = "write_artifacts"
+    description = (
+        "Write understanding and testcase artifacts and store their output locations in agent state."
+    )
+
+    def run(self, state: AgentState, **kwargs) -> AgentState:
+        output_dir = kwargs.get("output_dir")
+        if not output_dir:
+            raise ValueError("output_dir is required")
+
+        artifacts: dict[str, object] = {}
+
+        if state.understanding is not None:
+            understanding_paths = write_understanding_artifacts(
+                state.understanding,
+                output_dir,
+            )
+            artifacts["understanding"] = understanding_paths
+
+        if state.testcases is not None:
+            testcase_paths = write_testcase_artifacts(
+                state.testcases,
+                output_dir,
+            )
+            artifacts["testcases"] = testcase_paths
+
+        state.artifacts = artifacts
+        state.tool_trace.append(
+            {
+                "tool": self.name,
+                "status": "ok",
+                "artifact_groups": list(state.artifacts.keys()),
             }
         )
         return state
