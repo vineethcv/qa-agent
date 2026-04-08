@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from agent.state import AgentState
 from agent.tools.base import AgentTool
+from skills.analyze_ambiguities import analyze_bundle_ambiguities
 from skills.ingest_specs import build_normalized_spec_bundle
 from skills.merge_understanding import build_unified_understanding
 from skills.understand_design_screenshots import enrich_bundle_from_design_screenshots
@@ -268,6 +269,40 @@ class ResolveConflictsTool(AgentTool):
             {
                 "tool": self.name,
                 "status": "ok",
+                "conflict_count": len(state.conflicts),
+            }
+        )
+        return state
+
+
+class FindGapsAndConflictsTool(AgentTool):
+    name = "find_gaps_and_conflicts"
+    description = (
+        "Surface missing testability details, underspecified behavior, and ambiguity-driven clarification points."
+    )
+
+    def run(self, state: AgentState, **kwargs) -> AgentState:
+        if state.understanding is None:
+            raise ValueError("understanding bundle not initialized")
+
+        state.understanding = analyze_bundle_ambiguities(state.understanding)
+
+        ambiguity_messages = [
+            ambiguity.description for ambiguity in state.understanding.ambiguities
+        ]
+        state.open_questions.extend(ambiguity_messages)
+        state.findings.extend(ambiguity_messages)
+
+        for message in ambiguity_messages:
+            if message not in state.conflicts:
+                state.conflicts.append(message)
+
+        state.tool_trace.append(
+            {
+                "tool": self.name,
+                "status": "ok",
+                "ambiguity_count": len(state.understanding.ambiguities),
+                "open_question_count": len(state.open_questions),
                 "conflict_count": len(state.conflicts),
             }
         )
