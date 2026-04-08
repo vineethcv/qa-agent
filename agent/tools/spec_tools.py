@@ -444,22 +444,22 @@ class ValidateTestOutputTool(AgentTool):
         if state.testcases is None:
             raise ValueError("testcase bundle not initialized")
 
-        validation_result = validate_testcase_bundle(state.testcases)
+        validation_errors = validate_testcase_bundle(state.testcases)
         state.validation = {
-            "is_valid": validation_result.is_valid,
-            "error_count": len(validation_result.errors),
-            "errors": validation_result.errors,
+            "is_valid": len(validation_errors) == 0,
+            "error_count": len(validation_errors),
+            "errors": validation_errors,
         }
 
-        if validation_result.errors:
-            state.findings.extend(validation_result.errors)
+        if validation_errors:
+            state.findings.extend(validation_errors)
 
         state.tool_trace.append(
             {
                 "tool": self.name,
                 "status": "ok",
-                "is_valid": validation_result.is_valid,
-                "error_count": len(validation_result.errors),
+                "is_valid": len(validation_errors) == 0,
+                "error_count": len(validation_errors),
             }
         )
         return state

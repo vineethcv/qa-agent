@@ -1,97 +1,116 @@
 from __future__ import annotations
 
 import argparse
-import os
+from pathlib import Path
 
-from models import DesignImageInput, SpecInput, SpecSource
-from skills.analyze_ambiguities import analyze_bundle_ambiguities
-from skills.generate_testcases import generate_testcases
-from skills.generate_testcases_from_bundle import generate_testcases_from_bundle
-from skills.ingest_specs import build_normalized_spec_bundle
-from skills.merge_understanding import build_unified_understanding
-from skills.validate_testcases import validate_testcase_bundle
-from skills.write_testcases import write_testcase_artifacts
-from skills.write_understanding import write_understanding_artifacts
+from agent.spec_agent import SpecUnderstandingAgent
+from agent.state import AgentState
+from models import DesignImageInput, SpecSource
 
 
-def load_text_file(path: str) -> str:
-    with open(path, "r", encoding="utf-8") as f:
-        return f.read()
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="QA agent for spec understanding and testcase generation."
+    )
+    parser.add_argument(
+        "--mode",
+        required=True,
+        choices=["generate_testcases"],
+        help="Execution mode.",
+    )
+    parser.add_argument(
+        "--title",
+        default="QA Agent Run",
+        help="Title for the current run.",
+    )
+    parser.add_argument(
+        "--spec-file",
+        action="append",
+        default=[],
+        help="Path to a text or markdown spec file. Can be provided multiple times.",
+    )
+    parser.add_argument(
+        "--design-image",
+        action="append",
+        default=[],
+        help="Path to a design image. Can be provided multiple times.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        required=True,
+        help="Directory where generated artifacts will be written.",
+    )
+    return parser.parse_args()
 
 
-def _build_spec_sources(spec_files: list[str]) -> list[SpecSource]:
-    sources = []
-    for path in spec_files:
-        sources.append(
+def load_spec_sources(paths: list[str]) -> list[SpecSource]:
+    spec_sources: list[SpecSource] = []
+
+    for raw_path in paths:
+        path = Path(raw_path)
+        content = path.read_text(encoding="utf-8")
+        spec_sources.append(
             SpecSource(
-                name=os.path.basename(path),
-                content=load_text_file(path),
+                name=path.name,
+                content=content,
                 source_type="text",
             )
         )
-    return sources
+
+    return spec_sources
 
 
-def _build_design_inputs(design_images: list[str]) -> list[DesignImageInput]:
-    inputs = []
-    for path in design_images:
-        inputs.append(
+def load_design_images(paths: list[str]) -> list[DesignImageInput]:
+    design_images: list[DesignImageInput] = []
+
+    for raw_path in paths:
+        path = Path(raw_path)
+        design_images.append(
             DesignImageInput(
-                name=os.path.basename(path),
-                path=path,
+                name=path.name,
+                path=str(path),
                 description="",
             )
         )
-    return inputs
+
+    return design_images
+
+
+def run_generate_testcases(args: argparse.Namespace) -> None:
+    spec_sources = load_spec_sources(args.spec_file)
+    design_images = load_design_images(args.design_image)
+
+    state = AgentState(
+        title=args.title,
+        raw_inputs={
+            "spec_sources": spec_sources,
+            "design_images": design_images,
+        },
+    )
+
+    agent = SpecUnderstandingAgent()
+    state = agent.run(state, output_dir=args.output_dir)
+
+    print("Run completed.")
+    print(f"Tool trace entries: {len(state.tool_trace)}")
+    print(f"Open questions: {len(state.open_questions)}")
+    print(f"Clarification questions: {len(state.clarification_questions)}")
+    print(f"Conflicts: {len(state.conflicts)}")
+    print(f"Confidence: {state.confidence.get('overall', 'unknown')}")
+    print(f"Validation passed: {state.validation.get('is_valid', False)}")
+
+    artifact_groups = ", ".join(state.artifacts.keys()) if state.artifacts else "none"
+    print(f"Artifacts written: {artifact_groups}")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--skill", required=True)
-    parser.add_argument("--spec-file", action="append", default=[])
-    parser.add_argument("--design-image", action="append", default=[])
-    parser.add_argument("--title", required=False)
-    parser.add_argument("--output-dir", required=False, default="artifacts/generated_testcases")
+    args = parse_args()
 
-    args = parser.parse_args()
+    if args.mode == "generate_testcases":
+        run_generate_testcases(args)
+        return
 
-    if args.skill == "generate_testcases":
-        # V2 path: use normalized bundle pipeline when multi-source inputs are provided.
-        if args.spec_file or args.design_image:
-            title = args.title or "Generated Testcases"
-
-            spec_sources = _build_spec_sources(args.spec_file)
-            design_inputs = _build_design_inputs(args.design_image)
-
-            bundle = build_normalized_spec_bundle(
-                title=title,
-                spec_sources=spec_sources,
-                design_images=design_inputs,
-            )
-            bundle = build_unified_understanding(bundle)
-            bundle = analyze_bundle_ambiguities(bundle)
-
-            testcase_bundle = generate_testcases_from_bundle(bundle)
-            validation_errors = validate_testcase_bundle(testcase_bundle)
-            if validation_errors:
-                raise ValueError(f"Generated testcase validation failed: {validation_errors}")
-
-            understanding_paths = write_understanding_artifacts(bundle, args.output_dir)
-            testcase_paths = write_testcase_artifacts(testcase_bundle, args.output_dir)
-
-            print("Generated understanding artifacts:")
-            for key, value in understanding_paths.items():
-                print(f"{key}: {value}")
-
-            print("Generated testcase artifacts:")
-            for key, value in testcase_paths.items():
-                print(f"{key}: {value}")
-            return
-
-        # V1 fallback path
-        raise ValueError("At least one --spec-file or --design-image input is required for generate_testcases")
-
-    raise ValueError(f"Unsupported skill: {args.skill}")
+    raise ValueError(f"Unsupported mode: {args.mode}")
 
 
 if __name__ == "__main__":
