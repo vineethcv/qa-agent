@@ -1,0 +1,26 @@
+{
+  "source_title": "usersignuppromotions",
+  "test_cases": [
+    {
+      "title": "usersignuppromotions - Happy Path",
+      "objective": "Validate the primary successful flow for usersignuppromotions",
+      "preconditions": [],
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Review specification manually",
+          "expected_result": "Specification contains enough detail to derive test steps"
+        }
+      ],
+      "priority": "High",
+      "tags": [
+        "happy_path",
+        "regression"
+      ]
+    }
+  ],
+  "warnings": [
+    "No explicit actions found in spec.",
+    "No explicit expected outcomes found in spec."
+  ]
+}

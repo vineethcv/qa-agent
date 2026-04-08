@@ -1,0 +1,184 @@
+{
+  "title": "Sign up promotions",
+  "summary": "User Story\nAs a [user/potential subscriber], I want to encounter non-intrusive, relevant promotions for premium features throughout my journey, so that I can discover the value of upgrading in a seamless and engaging way, while the platform achieves sustainable growth in premium subscriptions and overall user base.\nDescription\nWe have been running a \"Premium preview\" test for some months \nWe want to test two additional new variants of premium subscription promotions to see if we can increase conversion and user engagement based on these.\nWe however also want to run a control group of what we currently have in production, which effectively will result in the below setup:\n\nDescriptions of variants\nVariant A: A standalone screen offering a free 7-day Premium trial. (25% of users)\nVariant B: Displaying Premium, Trial, and Free options side by side, allowing users to compare offers and choose. (25% of users)\nVariant C: Users receive a 30-days Preview with an updated post-Preview screen (25% of users)\n\nSplit/Harness documentation:\nKey name: exp_premium_preview_3_variants\n\nVariant A = on\nVariant B = premiumtrialfree\nVariant C = 30dpreview\nVariant D=  off Precondition: User is already authenticated\nAction: Open the main dashboard\nAction: Observe the page title\nAction: Observe navigation menu items\nExpected: Dashboard page is displayed\nExpected: Title matches expected application title\nExpected: Navigation menu contains configured items",
+  "spec_sources": [
+    {
+      "name": "usersignuppromotions.txt",
+      "content": "User Story\nAs a [user/potential subscriber], I want to encounter non-intrusive, relevant promotions for premium features throughout my journey, so that I can discover the value of upgrading in a seamless and engaging way, while the platform achieves sustainable growth in premium subscriptions and overall user base.\nDescription\nWe have been running a \"Premium preview\" test for some months \nWe want to test two additional new variants of premium subscription promotions to see if we can increase conversion and user engagement based on these.\nWe however also want to run a control group of what we currently have in production, which effectively will result in the below setup:\n\nDescriptions of variants\nVariant A: A standalone screen offering a free 7-day Premium trial. (25% of users)\nVariant B: Displaying Premium, Trial, and Free options side by side, allowing users to compare offers and choose. (25% of users)\nVariant C: Users receive a 30-days Preview with an updated post-Preview screen (25% of users)\n\nSplit/Harness documentation:\nKey name: exp_premium_preview_3_variants\n\nVariant A = on\nVariant B = premiumtrialfree\nVariant C = 30dpreview\nVariant D=  off",
+      "source_type": "text"
+    },
+    {
+      "name": "post_login_navigation_spec.txt",
+      "content": "Precondition: User is already authenticated\nAction: Open the main dashboard\nAction: Observe the page title\nAction: Observe navigation menu items\nExpected: Dashboard page is displayed\nExpected: Title matches expected application title\nExpected: Navigation menu contains configured items",
+      "source_type": "text"
+    }
+  ],
+  "design_images": [
+    {
+      "name": "Screenshot_111.png",
+      "path": "examples/designs/Screenshot_111.png",
+      "description": ""
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "title": "Inferred requirement 1",
+      "description": "User Story\nAs a [user/potential subscriber], I want to encounter non-intrusive, relevant promotions for premium features throughout my journey, so that I can discover the value of upgrading in a seamless and engaging way, while the platform achieves sustainable growth in premium subscriptions and overall user base.",
+      "category": "functional",
+      "source_refs": [
+        {
+          "source_type": "text",
+          "source_name": "usersignuppromotions.txt",
+          "section": "",
+          "excerpt": "User Story\nAs a [user/potential subscriber], I want to encounter non-intrusive, relevant promotions for premium features throughout my journey, so that I can discover the value of upgrading in a seamless and engaging way, while the platform achieves sustainable growth in premium subscriptions and overall user base."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "title": "Inferred requirement 2",
+      "description": "Description\nWe have been running a \"Premium preview\" test for some months \nWe want to test two additional new variants of premium subscription promotions to see if we can increase conversion and user engagement based on these.",
+      "category": "functional",
+      "source_refs": [
+        {
+          "source_type": "text",
+          "source_name": "usersignuppromotions.txt",
+          "section": "",
+          "excerpt": "Description\nWe have been running a \"Premium preview\" test for some months \nWe want to test two additional new variants of premium subscription promotions to see if we can increase conversion and user engagement based on these."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "title": "Inferred requirement 3",
+      "description": "We however also want to run a control group of what we currently have in production, which effectively will result in the below setup:\n\nDescriptions of variants\nVariant A: A standalone screen offering a free 7-day Premium trial.",
+      "category": "functional",
+      "source_refs": [
+        {
+          "source_type": "text",
+          "source_name": "usersignuppromotions.txt",
+          "section": "",
+          "excerpt": "We however also want to run a control group of what we currently have in production, which effectively will result in the below setup:\n\nDescriptions of variants\nVariant A: A standalone screen offering a free 7-day Premium trial."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "title": "Inferred requirement 4",
+      "description": "(25% of users)\nVariant B: Displaying Premium, Trial, and Free options side by side, allowing users to compare offers and choose.",
+      "category": "functional",
+      "source_refs": [
+        {
+          "source_type": "text",
+          "source_name": "usersignuppromotions.txt",
+          "section": "",
+          "excerpt": "(25% of users)\nVariant B: Displaying Premium, Trial, and Free options side by side, allowing users to compare offers and choose."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "title": "Inferred requirement 5",
+      "description": "(25% of users)\nVariant C: Users receive a 30-days Preview with an updated post-Preview screen (25% of users)\n\nSplit/Harness documentation:\nKey name: exp_premium_preview_3_variants\n\nVariant A = on\nVariant B = premiumtrialfree\nVariant C = 30dpreview\nVariant D=  off",
+      "category": "functional",
+      "source_refs": [
+        {
+          "source_type": "text",
+          "source_name": "usersignuppromotions.txt",
+          "section": "",
+          "excerpt": "(25% of users)\nVariant C: Users receive a 30-days Preview with an updated post-Preview screen (25% of users)\n\nSplit/Harness documentation:\nKey name: exp_premium_preview_3_variants\n\nVariant A = on\nVariant B = premiumtrialfree\nVariant C = 30dpreview\nVariant D=  off"
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "title": "Inferred requirement 6",
+      "description": "Precondition: User is already authenticated\nAction: Open the main dashboard\nAction: Observe the page title\nAction: Observe navigation menu items\nExpected: Dashboard page is displayed\nExpected: Title matches expected application title\nExpected: Navigation menu contains configured items",
+      "category": "functional",
+      "source_refs": [
+        {
+          "source_type": "text",
+          "source_name": "post_login_navigation_spec.txt",
+          "section": "",
+          "excerpt": "Precondition: User is already authenticated\nAction: Open the main dashboard\nAction: Observe the page title\nAction: Observe navigation menu items\nExpected: Dashboard page is displayed\nExpected: Title matches expected application title\nExpected: Navigation menu contains configured items"
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "title": "Inferred design requirement 7",
+      "description": "UI represented by design image 'Screenshot_111.png' should be available and consistent with the provided design context.",
+      "category": "ui",
+      "source_refs": [
+        {
+          "source_type": "image",
+          "source_name": "Screenshot_111.png",
+          "section": "",
+          "excerpt": ""
+        }
+      ]
+    }
+  ],
+  "ui_elements": [
+    {
+      "name": "Screenshot_111.png",
+      "element_type": "screen",
+      "expected_behavior": "",
+      "source_refs": [
+        {
+          "source_type": "image",
+          "source_name": "Screenshot_111.png",
+          "section": "",
+          "excerpt": ""
+        }
+      ]
+    }
+  ],
+  "business_rules": [],
+  "acceptance_criteria": [
+    {
+      "criterion_id": "AC-1",
+      "description": "Precondition: User is already authenticated\nAction: Open the main dashboard\nAction: Observe the page title\nAction: Observe navigation menu items\nExpected: Dashboard page is displayed\nExpected: Title matches expected application title\nExpected: Navigation menu contains configured items",
+      "source_refs": [
+        {
+          "source_type": "text",
+          "source_name": "post_login_navigation_spec.txt",
+          "section": "",
+          "excerpt": "Precondition: User is already authenticated\nAction: Open the main dashboard\nAction: Observe the page title\nAction: Observe navigation menu items\nExpected: Dashboard page is displayed\nExpected: Title matches expected application title\nExpected: Navigation menu contains configured items"
+        }
+      ]
+    }
+  ],
+  "ambiguities": [
+    {
+      "description": "Design image 'Screenshot_111.png' has no description, so inferred UI understanding may be incomplete.",
+      "severity": "medium",
+      "source_refs": [
+        {
+          "source_type": "image",
+          "source_name": "Screenshot_111.png",
+          "section": "",
+          "excerpt": ""
+        }
+      ]
+    },
+    {
+      "description": "Requirements were inferred, but no business rules were identified.",
+      "severity": "medium",
+      "source_refs": []
+    },
+    {
+      "description": "Design images were provided without usable descriptive context.",
+      "severity": "medium",
+      "source_refs": [
+        {
+          "source_type": "image",
+          "source_name": "Screenshot_111.png",
+          "section": "",
+          "excerpt": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+Precondition: User is already authenticated
+Action: Open the main dashboard
+Action: Observe the page title
+Action: Observe navigation menu items
+Expected: Dashboard page is displayed
+Expected: Title matches expected application title
+Expected: Navigation menu contains configured items

@@ -1,0 +1,36 @@
+{
+  "source_title": "login_spec",
+  "test_cases": [
+    {
+      "title": "login_spec - Happy Path",
+      "objective": "Validate the primary successful flow for login_spec",
+      "preconditions": [
+        "User is on the login page",
+        "User has valid credentials"
+      ],
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Enter valid email",
+          "expected_result": "Email is accepted"
+        },
+        {
+          "step_number": 2,
+          "action": "Enter valid password",
+          "expected_result": "Password is accepted"
+        },
+        {
+          "step_number": 3,
+          "action": "Click login",
+          "expected_result": "User is redirected to dashboard"
+        }
+      ],
+      "priority": "High",
+      "tags": [
+        "happy_path",
+        "regression"
+      ]
+    }
+  ],
+  "warnings": []
+}

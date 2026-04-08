@@ -1,0 +1,18 @@
+name: post_login_navigation_testing
+start_url: /
+
+steps:
+  - action: assert_text
+    value: ${EXPECTED_PAGE_TITLE}
+
+  - action: assert_text
+    value: ${NAV_MENU_1}
+
+  - action: assert_text
+    value: ${NAV_MENU_2}
+
+  - action: assert_text
+    value: ${NAV_MENU_3}
+
+  - action: screenshot
+    value: post_login_navigation_state

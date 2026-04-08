@@ -1,0 +1,99 @@
+{
+  "flow_name": "login_testing -> post_login_navigation_testing",
+  "environment": "testing",
+  "status": "PASSED",
+  "generated_at": "2026-03-19T12:14:53.703342",
+  "steps": [
+    {
+      "step_index": 1,
+      "action": "fill",
+      "target": "email input",
+      "expected": "Fill email input",
+      "actual": "Filled email input",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 2,
+      "action": "fill",
+      "target": "password input",
+      "expected": "Fill password input",
+      "actual": "Filled password input",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 3,
+      "action": "click",
+      "target": "sign in button",
+      "expected": "Click sign in button",
+      "actual": "Clicked sign in button",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 4,
+      "action": "screenshot",
+      "target": null,
+      "expected": "post_login_landing",
+      "actual": "post_login_landing",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 1,
+      "action": "assert_text",
+      "target": null,
+      "expected": "Dashboard",
+      "actual": "Dashboard",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 2,
+      "action": "assert_text",
+      "target": null,
+      "expected": "Home",
+      "actual": "Home",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 3,
+      "action": "assert_text",
+      "target": null,
+      "expected": "Profile",
+      "actual": "Profile",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 4,
+      "action": "assert_text",
+      "target": null,
+      "expected": "Settings",
+      "actual": "Settings",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 5,
+      "action": "screenshot",
+      "target": null,
+      "expected": "post_login_navigation_state",
+      "actual": "post_login_navigation_state",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    }
+  ],
+  "evidence": []
+}

@@ -1,0 +1,18 @@
+# Test Case Bundle: login_spec
+
+## login_spec - Happy Path
+**Objective:** Validate the primary successful flow for login_spec
+**Priority:** High
+**Tags:** happy_path, regression
+
+### Preconditions
+- User is on the login page
+- User has valid credentials
+
+### Steps
+1. **Action:** Enter valid email
+   - **Expected:** Email is accepted
+2. **Action:** Enter valid password
+   - **Expected:** Password is accepted
+3. **Action:** Click login
+   - **Expected:** User is redirected to dashboard

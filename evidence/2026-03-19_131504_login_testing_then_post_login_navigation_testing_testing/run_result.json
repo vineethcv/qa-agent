@@ -1,0 +1,86 @@
+{
+  "flow_name": "login_testing -> post_login_navigation_testing",
+  "environment": "testing",
+  "status": "FAILED",
+  "generated_at": "2026-03-19T12:15:04.009081",
+  "steps": [
+    {
+      "step_index": 1,
+      "action": "fill",
+      "target": "email input",
+      "expected": "Fill email input",
+      "actual": "Filled email input",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 2,
+      "action": "fill",
+      "target": "password input",
+      "expected": "Fill password input",
+      "actual": "Filled password input",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 3,
+      "action": "click",
+      "target": "sign in button",
+      "expected": "Click sign in button",
+      "actual": "Clicked sign in button",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 4,
+      "action": "screenshot",
+      "target": null,
+      "expected": "post_login_landing",
+      "actual": "post_login_landing",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 1,
+      "action": "assert_text",
+      "target": null,
+      "expected": "Dashboard",
+      "actual": "Dashboard",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 2,
+      "action": "assert_text",
+      "target": null,
+      "expected": "Home",
+      "actual": "Home",
+      "status": "PASSED",
+      "error_message": null,
+      "screenshot": null
+    },
+    {
+      "step_index": 3,
+      "action": "assert_text",
+      "target": null,
+      "expected": "FAIL_Profile",
+      "actual": null,
+      "status": "FAILED",
+      "error_message": "Expected text not found: FAIL_Profile",
+      "screenshot": "evidence/2026-03-19_131504_login_testing_then_post_login_navigation_testing_testing/step_03_assert_text.png"
+    }
+  ],
+  "evidence": [
+    {
+      "type": "screenshot",
+      "path": "evidence/2026-03-19_131504_login_testing_then_post_login_navigation_testing_testing/step_03_assert_text.png",
+      "step_index": 3,
+      "note": "Captured for step 3 in flow post_login_navigation_testing"
+    }
+  ]
+}

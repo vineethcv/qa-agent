@@ -1,0 +1,71 @@
+# Requirement Understanding: Sign up promotions
+
+## Summary
+User Story
+As a [user/potential subscriber], I want to encounter non-intrusive, relevant promotions for premium features throughout my journey, so that I can discover the value of upgrading in a seamless and engaging way, while the platform achieves sustainable growth in premium subscriptions and overall user base.
+Description
+We have been running a "Premium preview" test for some months 
+We want to test two additional new variants of premium subscription promotions to see if we can increase conversion and user engagement based on these.
+We however also want to run a control group of what we currently have in production, which effectively will result in the below setup:
+
+Descriptions of variants
+Variant A: A standalone screen offering a free 7-day Premium trial. (25% of users)
+Variant B: Displaying Premium, Trial, and Free options side by side, allowing users to compare offers and choose. (25% of users)
+Variant C: Users receive a 30-days Preview with an updated post-Preview screen (25% of users)
+
+Split/Harness documentation:
+Key name: exp_premium_preview_3_variants
+
+Variant A = on
+Variant B = premiumtrialfree
+Variant C = 30dpreview
+Variant D=  off Precondition: User is already authenticated
+Action: Open the main dashboard
+Action: Observe the page title
+Action: Observe navigation menu items
+Expected: Dashboard page is displayed
+Expected: Title matches expected application title
+Expected: Navigation menu contains configured items
+
+## Requirements
+- User Story
+As a [user/potential subscriber], I want to encounter non-intrusive, relevant promotions for premium features throughout my journey, so that I can discover the value of upgrading in a seamless and engaging way, while the platform achieves sustainable growth in premium subscriptions and overall user base.
+- Description
+We have been running a "Premium preview" test for some months 
+We want to test two additional new variants of premium subscription promotions to see if we can increase conversion and user engagement based on these.
+- We however also want to run a control group of what we currently have in production, which effectively will result in the below setup:
+
+Descriptions of variants
+Variant A: A standalone screen offering a free 7-day Premium trial.
+- (25% of users)
+Variant B: Displaying Premium, Trial, and Free options side by side, allowing users to compare offers and choose.
+- (25% of users)
+Variant C: Users receive a 30-days Preview with an updated post-Preview screen (25% of users)
+
+Split/Harness documentation:
+Key name: exp_premium_preview_3_variants
+
+Variant A = on
+Variant B = premiumtrialfree
+Variant C = 30dpreview
+Variant D=  off
+- Precondition: User is already authenticated
+Action: Open the main dashboard
+Action: Observe the page title
+Action: Observe navigation menu items
+Expected: Dashboard page is displayed
+Expected: Title matches expected application title
+Expected: Navigation menu contains configured items
+- UI represented by design image 'Screenshot_111.png' should be available and consistent with the provided design context.
+
+## UI Elements
+- Screenshot_111.png (screen)
+
+## Acceptance Criteria
+- Precondition: User is already authenticated
+Action: Open the main dashboard
+Action: Observe the page title
+Action: Observe navigation menu items
+Expected: Dashboard page is displayed
+Expected: Title matches expected application title
+Expected: Navigation menu contains configured items

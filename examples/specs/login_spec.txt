@@ -1,0 +1,9 @@
+Precondition: User is on the login page
+Precondition: User has valid credentials
+Action: Enter valid email
+Action: Enter valid password
+Action: Click login
+Expected: Email is accepted
+Expected: Password is accepted
+Expected: User is redirected to dashboard
+Note: MFA is out of scope

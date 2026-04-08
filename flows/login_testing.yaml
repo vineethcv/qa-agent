@@ -1,0 +1,17 @@
+name: login_testing
+start_url: /login
+
+steps:
+  - action: fill
+    target: email input
+    value: ${USER_EMAIL}
+
+  - action: fill
+    target: password input
+    value: ${USER_PASSWORD}
+
+  - action: click
+    target: sign in button
+
+  - action: screenshot
+    value: post_login_landing

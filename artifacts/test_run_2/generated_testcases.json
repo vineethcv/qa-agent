@@ -1,0 +1,35 @@
+{
+  "source_title": "post_login_navigation_spec",
+  "test_cases": [
+    {
+      "title": "post_login_navigation_spec - Happy Path",
+      "objective": "Validate the primary successful flow for post_login_navigation_spec",
+      "preconditions": [
+        "User is already authenticated"
+      ],
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Open the main dashboard",
+          "expected_result": "Dashboard page is displayed"
+        },
+        {
+          "step_number": 2,
+          "action": "Observe the page title",
+          "expected_result": "Title matches expected application title"
+        },
+        {
+          "step_number": 3,
+          "action": "Observe navigation menu items",
+          "expected_result": "Navigation menu contains configured items"
+        }
+      ],
+      "priority": "High",
+      "tags": [
+        "happy_path",
+        "regression"
+      ]
+    }
+  ],
+  "warnings": []
+}

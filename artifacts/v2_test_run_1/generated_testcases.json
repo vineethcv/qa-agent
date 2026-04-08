@@ -1,0 +1,213 @@
+{
+  "source_title": "Sign up promotions",
+  "test_cases": [
+    {
+      "title": "Sign up promotions - Happy Path",
+      "objective": "Validate the primary successful flow for Sign up promotions",
+      "preconditions": [],
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Validate requirement: User Story\nAs a [user/potential subscriber], I want to encounter non-intrusive, relevant promotions for premium features throughout my journey, so that I can discover the value of upgrading in a seamless and engaging way, while the platform achieves sustainable growth in premium subscriptions and overall user base.",
+          "expected_result": "System behavior matches the understood requirement"
+        },
+        {
+          "step_number": 2,
+          "action": "Validate requirement: Description\nWe have been running a \"Premium preview\" test for some months \nWe want to test two additional new variants of premium subscription promotions to see if we can increase conversion and user engagement based on these.",
+          "expected_result": "System behavior matches the understood requirement"
+        },
+        {
+          "step_number": 3,
+          "action": "Validate requirement: We however also want to run a control group of what we currently have in production, which effectively will result in the below setup:\n\nDescriptions of variants\nVariant A: A standalone screen offering a free 7-day Premium trial.",
+          "expected_result": "System behavior matches the understood requirement"
+        },
+        {
+          "step_number": 4,
+          "action": "Validate requirement: (25% of users)\nVariant B: Displaying Premium, Trial, and Free options side by side, allowing users to compare offers and choose.",
+          "expected_result": "System behavior matches the understood requirement"
+        },
+        {
+          "step_number": 5,
+          "action": "Validate requirement: (25% of users)\nVariant C: Users receive a 30-days Preview with an updated post-Preview screen (25% of users)\n\nSplit/Harness documentation:\nKey name: exp_premium_preview_3_variants\n\nVariant A = on\nVariant B = premiumtrialfree\nVariant C = 30dpreview\nVariant D=  off",
+          "expected_result": "System behavior matches the understood requirement"
+        },
+        {
+          "step_number": 6,
+          "action": "Validate requirement: Precondition: User is already authenticated\nAction: Open the main dashboard\nAction: Observe the page title\nAction: Observe navigation menu items\nExpected: Dashboard page is displayed\nExpected: Title matches expected application title\nExpected: Navigation menu contains configured items",
+          "expected_result": "System behavior matches the understood requirement"
+        },
+        {
+          "step_number": 7,
+          "action": "Validate requirement: UI represented by design image 'Screenshot_111.png' should be available and consistent with the provided design context.",
+          "expected_result": "System behavior matches the understood requirement"
+        }
+      ],
+      "priority": "High",
+      "tags": [
+        "happy_path",
+        "regression"
+      ],
+      "source_refs": [
+        {
+          "source_type": "text",
+          "source_name": "usersignuppromotions.txt",
+          "section": "",
+          "excerpt": "User Story\nAs a [user/potential subscriber], I want to encounter non-intrusive, relevant promotions for premium features throughout my journey, so that I can discover the value of upgrading in a seamless and engaging way, while the platform achieves sustainable growth in premium subscriptions and overall user base."
+        },
+        {
+          "source_type": "text",
+          "source_name": "usersignuppromotions.txt",
+          "section": "",
+          "excerpt": "Description\nWe have been running a \"Premium preview\" test for some months \nWe want to test two additional new variants of premium subscription promotions to see if we can increase conversion and user engagement based on these."
+        },
+        {
+          "source_type": "text",
+          "source_name": "usersignuppromotions.txt",
+          "section": "",
+          "excerpt": "We however also want to run a control group of what we currently have in production, which effectively will result in the below setup:\n\nDescriptions of variants\nVariant A: A standalone screen offering a free 7-day Premium trial."
+        },
+        {
+          "source_type": "text",
+          "source_name": "usersignuppromotions.txt",
+          "section": "",
+          "excerpt": "(25% of users)\nVariant B: Displaying Premium, Trial, and Free options side by side, allowing users to compare offers and choose."
+        },
+        {
+          "source_type": "text",
+          "source_name": "usersignuppromotions.txt",
+          "section": "",
+          "excerpt": "(25% of users)\nVariant C: Users receive a 30-days Preview with an updated post-Preview screen (25% of users)\n\nSplit/Harness documentation:\nKey name: exp_premium_preview_3_variants\n\nVariant A = on\nVariant B = premiumtrialfree\nVariant C = 30dpreview\nVariant D=  off"
+        },
+        {
+          "source_type": "text",
+          "source_name": "post_login_navigation_spec.txt",
+          "section": "",
+          "excerpt": "Precondition: User is already authenticated\nAction: Open the main dashboard\nAction: Observe the page title\nAction: Observe navigation menu items\nExpected: Dashboard page is displayed\nExpected: Title matches expected application title\nExpected: Navigation menu contains configured items"
+        },
+        {
+          "source_type": "image",
+          "source_name": "Screenshot_111.png",
+          "section": "",
+          "excerpt": ""
+        }
+      ]
+    },
+    {
+      "title": "Sign up promotions - Validation",
+      "objective": "Validate rules and input handling for Sign up promotions",
+      "preconditions": [],
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Submit incomplete or invalid input",
+          "expected_result": "System prevents invalid submission and shows validation feedback"
+        }
+      ],
+      "priority": "High",
+      "tags": [
+        "validation",
+        "negative",
+        "regression"
+      ],
+      "source_refs": []
+    },
+    {
+      "title": "Sign up promotions - Negative Path",
+      "objective": "Validate unsuccessful or unclear flows for Sign up promotions",
+      "preconditions": [],
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Probe ambiguous behavior area: Design image 'Screenshot_111.png' has no description, so inferred UI understanding may be incomplete.",
+          "expected_result": "System behavior is clarified, rejected safely, or documented for follow-up"
+        },
+        {
+          "step_number": 2,
+          "action": "Probe ambiguous behavior area: Requirements were inferred, but no business rules were identified.",
+          "expected_result": "System behavior is clarified, rejected safely, or documented for follow-up"
+        },
+        {
+          "step_number": 3,
+          "action": "Probe ambiguous behavior area: Design images were provided without usable descriptive context.",
+          "expected_result": "System behavior is clarified, rejected safely, or documented for follow-up"
+        }
+      ],
+      "priority": "Medium",
+      "tags": [
+        "negative",
+        "error_handling"
+      ],
+      "source_refs": [
+        {
+          "source_type": "image",
+          "source_name": "Screenshot_111.png",
+          "section": "",
+          "excerpt": ""
+        },
+        {
+          "source_type": "image",
+          "source_name": "Screenshot_111.png",
+          "section": "",
+          "excerpt": ""
+        }
+      ]
+    },
+    {
+      "title": "Sign up promotions - UI Presence",
+      "objective": "Validate expected UI elements for Sign up promotions",
+      "preconditions": [],
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Verify UI element is present and visible: Screenshot_111.png",
+          "expected_result": "Element 'Screenshot_111.png' is displayed as expected"
+        }
+      ],
+      "priority": "Medium",
+      "tags": [
+        "ui",
+        "visibility",
+        "regression"
+      ],
+      "source_refs": [
+        {
+          "source_type": "image",
+          "source_name": "Screenshot_111.png",
+          "section": "",
+          "excerpt": ""
+        }
+      ]
+    },
+    {
+      "title": "Sign up promotions - Navigation and State",
+      "objective": "Validate navigation and UI state behavior for Sign up promotions",
+      "preconditions": [],
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Validate navigation or state behavior: UI represented by design image 'Screenshot_111.png' should be available and consistent with the provided design context.",
+          "expected_result": "System transitions and screen state match the understood behavior"
+        }
+      ],
+      "priority": "Medium",
+      "tags": [
+        "navigation",
+        "state",
+        "ui"
+      ],
+      "source_refs": [
+        {
+          "source_type": "image",
+          "source_name": "Screenshot_111.png",
+          "section": "",
+          "excerpt": ""
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    "Design image 'Screenshot_111.png' has no description, so inferred UI understanding may be incomplete.",
+    "Requirements were inferred, but no business rules were identified.",
+    "Design images were provided without usable descriptive context."
+  ]
+}
