@@ -15,6 +15,7 @@ class AgentState:
     testcases: TestCaseBundle | None = None
 
     open_questions: list[str] = field(default_factory=list)
+    clarification_questions: list[str] = field(default_factory=list)
     findings: list[str] = field(default_factory=list)
     decisions: list[str] = field(default_factory=list)
     user_flows: list[dict[str, Any]] = field(default_factory=list)

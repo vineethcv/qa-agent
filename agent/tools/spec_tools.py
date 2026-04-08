@@ -367,3 +367,43 @@ class ScoreConfidenceTool(AgentTool):
             }
         )
         return state
+
+
+class AskClarificationQuestionsTool(AgentTool):
+    name = "ask_clarification_questions"
+    description = (
+        "Convert unresolved gaps, conflicts, and low-confidence areas into concrete clarification questions."
+    )
+
+    def run(self, state: AgentState, **kwargs) -> AgentState:
+        questions: list[str] = []
+
+        for item in state.open_questions:
+            questions.append(f"What is the expected behavior for: {item}?")
+
+        for conflict in state.conflicts:
+            questions.append(f"Can you clarify this apparent conflict: {conflict}?")
+
+        overall_confidence = state.confidence.get("overall")
+        if overall_confidence == "low":
+            questions.append(
+                "Can you provide more detailed acceptance criteria or examples to improve understanding confidence?"
+            )
+
+        deduped_questions: list[str] = []
+        seen: set[str] = set()
+        for question in questions:
+            normalized = question.strip().lower()
+            if normalized not in seen:
+                seen.add(normalized)
+                deduped_questions.append(question)
+
+        state.clarification_questions = deduped_questions
+        state.tool_trace.append(
+            {
+                "tool": self.name,
+                "status": "ok",
+                "clarification_question_count": len(state.clarification_questions),
+            }
+        )
+        return state
