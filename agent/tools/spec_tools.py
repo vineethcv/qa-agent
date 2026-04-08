@@ -3,6 +3,7 @@ from __future__ import annotations
 from agent.state import AgentState
 from agent.tools.base import AgentTool
 from skills.analyze_ambiguities import analyze_bundle_ambiguities
+from skills.generate_testcases_from_bundle import generate_testcases_from_bundle
 from skills.ingest_specs import build_normalized_spec_bundle
 from skills.merge_understanding import build_unified_understanding
 from skills.understand_design_screenshots import enrich_bundle_from_design_screenshots
@@ -404,6 +405,27 @@ class AskClarificationQuestionsTool(AgentTool):
                 "tool": self.name,
                 "status": "ok",
                 "clarification_question_count": len(state.clarification_questions),
+            }
+        )
+        return state
+
+
+class DraftTestScenariosTool(AgentTool):
+    name = "draft_test_scenarios"
+    description = (
+        "Generate testcase scenarios from the current refined understanding bundle."
+    )
+
+    def run(self, state: AgentState, **kwargs) -> AgentState:
+        if state.understanding is None:
+            raise ValueError("understanding bundle not initialized")
+
+        state.testcases = generate_testcases_from_bundle(state.understanding)
+        state.tool_trace.append(
+            {
+                "tool": self.name,
+                "status": "ok",
+                "testcase_count": len(state.testcases.test_cases),
             }
         )
         return state
